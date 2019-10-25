@@ -11,6 +11,7 @@ function init(){
 function setBlockBgColor(){
     $.each(timeBlocks, function(index, value){
         let bgClass = "";
+        $(value).find("textarea").removeClass("past present future");
         if($(value).attr('data-hour') < moment().format('HH')){
             bgClass="past";
         }else if ($(value).attr('data-hour') > moment().format('HH')){
@@ -18,7 +19,7 @@ function setBlockBgColor(){
         }else if ($(value).attr('data-hour') == moment().format('HH')){
             bgClass="present";
         }        
-        $(value).addClass(bgClass);
+        $(value).find("textarea").addClass(bgClass);
     });
 }
 function loadSaved(){
@@ -31,6 +32,9 @@ $('.saveBtn').on('click',function() {
         $(this).parent().attr('data-hour')
         ,$(this).parent().find('textarea').val());
 });
-    
+
+var refreshBlockBGColors = setInterval(function(){
+    setBlockBgColor();
+},30000);
 
 init();
